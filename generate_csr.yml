@@ -1,0 +1,11 @@
+- hosts: lab1
+  gather_facts: false
+  connection: local
+
+
+  roles:
+    - role: csr_req
+      tags: 
+        - keys
+
+ 

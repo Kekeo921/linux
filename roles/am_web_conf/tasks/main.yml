@@ -1,0 +1,10 @@
+---
+# tasks file for am_web_conf
+
+  - name: create web-config file for alertmanager 
+    template:
+      src: ./templates/web_conf_temp.j2
+      dest: /etc/alertmanager/web-config.conf
+#    delegate_to: localhost
+    run_once: yes
+    tags: create_web_conf

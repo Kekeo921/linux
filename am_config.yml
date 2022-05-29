@@ -1,0 +1,28 @@
+- hosts: lab2
+  gather_facts: false
+
+
+  tasks:
+    - name: run am_key role
+      include_role:
+        name: am_keys
+      tags: 
+        - am_key_dir
+        - copy_keys
+
+    - name: run am_web_conf role
+      include_role:
+        name: am_web_conf
+      tags: 
+        - create_web_conf
+
+#ansible-playbook am_config.yml --list-tags
+#ansible-playbook am_config.yml --tags=create_web_conf,copy_keys
+
+
+#  roles:
+#    - role: am_keys
+##      tags: 
+##        - am_key_dir
+##        - copy_keys
+#    - role: am_web_conf

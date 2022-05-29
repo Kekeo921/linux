@@ -1,0 +1,6 @@
+---
+# vars file for csr_req
+  servers:
+    - "lab1"
+    - "lab2"
+ 

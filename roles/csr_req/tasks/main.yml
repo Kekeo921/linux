@@ -1,0 +1,28 @@
+---
+# tasks file for csr_req
+#    - name: load 
+#      include_vars: main.yml
+#
+    - name: Generate RSA key and CSR - tasks
+      tags: keys
+      block:
+      - name: Generate private RSA
+        openssl_privatekey:
+         path: ./keys/key/{{item}}.key
+         type: RSA
+         size: 4096
+        with_items: "{{ servers }}"
+    
+      - name: generate CSR
+        openssl_csr:
+          path: ./keys/csr/{{ item }}.csr
+          privatekey_path: ./keys/key/{{ item }}.key
+          country_name: PL
+          organization_name: LAB
+          email_address: lab1@local.pl
+          common_name: "{{ item }}.local"
+          subject_alt_name: 'DNS:{{ item }}.local'
+        with_items: "{{ servers }}"
+
+
+#/etc/ansible/linux
