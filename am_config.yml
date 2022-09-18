@@ -1,15 +1,15 @@
-- hosts: lab2
-  gather_facts: false
+- hosts: Remote2
+  gather_facts: true
 
 
   tasks:
-    - name: run am_key role
-      include_role:
-        name: am_keys
-      tags: 
-        - am_key_dir
-        - copy_keys
-
+#    - name: run am_key role
+#      include_role:
+#        name: am_keys
+#      tags: 
+#        - am_key_dir
+#        - copy_keys
+#
     - name: run am_web_conf role
       include_role:
         name: am_web_conf

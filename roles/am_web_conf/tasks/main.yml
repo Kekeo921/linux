@@ -6,5 +6,5 @@
       src: ./templates/web_conf_temp.j2
       dest: /etc/alertmanager/web-config.conf
 #    delegate_to: localhost
-    run_once: yes
+#    run_once: yes
     tags: create_web_conf

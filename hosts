@@ -1,6 +1,11 @@
 [LAB]
 lab1 ansible_host=192.168.1.60
-lab2 ansible_host=192.168.1.61 
+[Remote]
+lab2 ansible_host=192.168.1.61
+lab3 ansible_host=192.168.1.62
+lab4 ansible_host=192.168.1.64
 
 
-
+[Remote2]
+192.168.1.61
+192.168.1.62

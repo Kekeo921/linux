@@ -8,3 +8,6 @@
       ansible.builtin.service:
         name: sshd
         state: restarted
+      register: sshd_reset
+
+    - debug: var=sshd_reset

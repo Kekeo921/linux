@@ -1,0 +1,15 @@
+- hosts: lab3
+  gather_facts: false
+#  connection: local
+
+  tasks: 
+  
+  - name: copy key and crt - tasks
+    tags: copy_keys
+    block:
+    - name: copy key file 
+#      become: true
+      copy:
+        src: /tmp/test_amsa
+        dest: /etc/alertmanager/test_am
+        remote_src: yes

@@ -1,0 +1,11 @@
+- hosts: lab4
+  gather_facts: false
+  connection: local
+#  connection: network_cli
+  tasks:
+    - name: copy file
+#      become: true
+      shell: whoami
+      register: test
+
+    - debug: var=test.stdout_lines
