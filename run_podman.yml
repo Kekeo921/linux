@@ -1,20 +1,39 @@
 - hosts: lab4
   gather_facts: false
+  become: yes
+  become_user: telegraf
 #  connection: local
 #  connection: network_cli
 #  vars:
 #    ansible_python_interpreter: /bin/python3
   tasks:
 
-    - name: Run grafana container 
+#    - name: Run grafana container 
+#      containers.podman.podman_container:
+#        name: grafana
+#        image: docker.io/grafana/grafana
+#        state: started
+#        recreate: yes
+#        ports:
+#          - "3000:3000"
+#        volumes:
+#          - grafana-data:/var/lib/grafana
+
+
+    - name: Run alertmanager
       containers.podman.podman_container:
-        name: grafana
-        image: docker.io/grafana/grafana
+        name: alertmanager
+        image: docker.io/prom/alertmanager 
         state: started
         recreate: yes
         ports:
-          - "3000:3000"
+          - "9093:9093"
         volumes:
-          - grafana-data:/var/lib/grafana
+          - /etc/telegraf/alertmanager:/alertmanager/
+          - /etc/telegraf/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+        command:
+          - "--config.file=/etc/alertmanager/alertmanager.yml"
+          - "--storage.path=/alertmanager"
+
 
 
