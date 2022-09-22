@@ -7,9 +7,9 @@
   tasks:
 
     - name: Run grafana container 
-      docker_container:
+      containers.podman.podman_container:
         name: grafana
-        image: grafana/grafana
+        image: docker.io/grafana/grafana
         state: started
         recreate: yes
         ports:
@@ -17,28 +17,4 @@
         volumes:
           - grafana-data:/var/lib/grafana
 
-    - name: Run node exporter container 
-      docker_container:
-        name: node-exporter
-        image: prom/node-exporter:latest
-        state: started
-        recreate: yes
-        ports:
-          - "9100:9100"
-        volumes:
-          - /proc:/host/proc:ro
-          - /sys:/host/sys:ro
-          - /:/rootfs:ro
-
-
-    - name: Run local telegraf 
-      docker_container:
-        name: telegraf_local
-        image: telegraf
-        state: started
-        recreate: yes
-        ports:
-          - "9273:9273"
-        volumes:
-          -  /etc/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
