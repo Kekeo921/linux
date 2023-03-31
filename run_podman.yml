@@ -1,11 +1,13 @@
 - hosts: lab4
   gather_facts: false
   become: yes
-  become_user: telegraf
+#  become_user: telegraf
 #  connection: local
 #  connection: network_cli
 #  vars:
 #    ansible_python_interpreter: /bin/python3
+  vars:
+    instances: 3
   tasks:
 
 #    - name: Run grafana container 
@@ -22,18 +24,26 @@
 
     - name: Run alertmanager
       containers.podman.podman_container:
-        name: alertmanager
+        name: alertmanager-{{ '%s' | format(item) }}-prd
         image: docker.io/prom/alertmanager 
+        user: 1001:1001
         state: started
+#        privileged: yes
         recreate: yes
         ports:
-          - "9093:9093"
+          - "1008{{ '%s' | format(item) }}:9093"
         volumes:
-          - /etc/telegraf/alertmanager:/alertmanager/
-          - /etc/telegraf/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+          - /etc/telegraf/alertmanager/data/:/alertmanager/:z 
+          - /etc/telegraf/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:z 
+#          - /etc/telegraf/alertmanager/ssl/:/etc/alertmanager/ssl:z 
+          - /etc/telegraf/alertmanager/web_config.yml:/etc/alertmanager/web_config.yml:z 
+          - /etc/telegraf/alertmanager/ssl/am_key.key:/etc/alertmanager/ssl/am_key.key:z 
+          - /etc/telegraf/alertmanager/ssl/am_cert.crt:/etc/alertmanager/ssl/am_cert.crt:z 
         command:
           - "--config.file=/etc/alertmanager/alertmanager.yml"
-          - "--storage.path=/alertmanager"
-
+          - "--storage.path=/alertmanager/"
+          - "--web.config.file=/etc/alertmanager/web_config.yml"
+#          - "--web.external-url=https://{{inventory_hostname}}.local"
+      loop: "{{ range(1 ,instances + 1 )|list }}"
 
 
