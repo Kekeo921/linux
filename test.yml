@@ -9,3 +9,24 @@
       register: test
 
     - debug: var=test.stdout_lines
+
+
+
+$resolvedIPs = @()
+$fqdns = 
+"www.wp.pl", 
+"www.onet.pl",
+"www.google.com"
+
+
+foreach ($fqdn in $fqdns) {
+    $resolvedIP = Resolve-DnsName -Name $fqdn | Select-Object -ExpandProperty Address
+    $resolvedIPs += $resolvedIP
+}
+
+Write-Host "IPs:"
+foreach ($resolvedIP in $resolvedIPs) {
+    Write-Host $resolvedIP
+}
+
+
